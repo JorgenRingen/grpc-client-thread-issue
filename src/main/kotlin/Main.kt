@@ -63,8 +63,6 @@ private fun customerAccountService(
 
 
 fun grpcChannel(): ManagedChannel {
-    println(CustomerAccountServiceGrpc.getServiceDescriptor().name)
-
     return ManagedChannelBuilder
         .forAddress("localhost", 1337) // simulate UNAVAILABLE
         .usePlaintext()
@@ -75,6 +73,8 @@ fun grpcChannel(): ManagedChannel {
 
             initial attempt: random(0, initialBackoff) // 0-2sek
             next 4 attempts: random(0, min(initialBackoff*backoffMultiplier**(n-1), maxBackoff)) //0-2sek
+
+            (set backoffMultiplier high to always use maxBackoff)
 
             should have about ~50% probability of exceeding the deadline (5s)
              */
